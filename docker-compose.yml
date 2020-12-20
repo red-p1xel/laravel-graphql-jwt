@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+
+  mysql:
+    container_name: mysql
+    image: library/mysql:8
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      - TZ=Europe/Kiev
+      - MYSQL_ROOT_PASSWORD=paSSword
+      - MYSQL_DATABASE=temporary
+      - MYSQL_USER=temporary
+      - MYSQL_PASSWORD=paSSword
+    ports:
+      - 3306:3306
+    network_mode: 'bridge'
+
+  app:
+    container_name: app
+    image: p1xel/laravel-graphql-jwt
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - TZ=Europe/Kiev
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=temporary
+      - DB_USERNAME=temporary
+      - DB_PASSWORD=paSSword
+      - CACHE_DRIVER=database
+    links:
+      - mysql:db
+    ports:
+      - 80:80
+    network_mode: 'bridge'
+
+volumes:
+  mysql:
+    driver: 'local'
