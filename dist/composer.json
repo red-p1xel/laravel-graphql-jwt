@@ -13,9 +13,11 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "illuminate/support": "^8.19",
+        "laracasts/presenter": "^0.2.4",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "orchestra/testbench": "^6.7",
+        "prettus/l5-repository": "^2.7",
         "rebing/graphql-laravel": "^6.1",
         "tymon/jwt-auth": "^1.0"
     },
