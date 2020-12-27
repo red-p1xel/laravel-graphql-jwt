@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Mutations\User;
 
-use App\Models\User;
+use App\Services\UserManagerService;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use phpDocumentor\Reflection\Types\Object_;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
 
@@ -16,39 +15,41 @@ class RegisterUserMutation extends Mutation
 {
     protected $attributes = [
         'name' => 'registerUser',
+        'description' => 'Create user account'
     ];
+
+    private $userManagerService;
+
+    public function __construct()
+    {
+        $this->userManagerService = new UserManagerService();
+    }
 
     public function type(): Type
     {
-        return GraphQL::type('User');
+        return GraphQL::type('user');
     }
 
     public function args(): array
     {
         return [
             'name' => [
-                'name' => 'name',
                 'type' => Type::nonNull(Type::string()),
+                'rules' => ['max:255']
             ],
             'email' => [
-                'name' => 'email',
                 'type' => Type::nonNull(Type::string()),
                 'rules' => ['email']
             ],
             'password' => [
-                'name' => 'password',
                 'type' => Type::nonNull(Type::string()),
+                'rules' => ['min:6']
             ],
         ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        $user = new User();
-        $args['password'] = bcrypt($args['password']);
-        $user->fill($args);
-        $user->save();
-
-        return User::find($user->getAttribute('id'));
+        return $this->userManagerService->signUp($args);
     }
 }

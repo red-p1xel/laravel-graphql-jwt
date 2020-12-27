@@ -16,9 +16,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class UpdateProfileMutation extends Mutation
 {
     protected $attributes = [
-        'name' => 'profile/UpdateProfile',
+        'name' => 'UpdateProfile',
         'description' => 'A mutation'
     ];
+/*
     private $auth;
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
         try {
@@ -36,11 +37,11 @@ class UpdateProfileMutation extends Mutation
 
         return true;
     }
-
+*/
 
     public function type(): Type
     {
-        return GraphQL::type('Profile');
+        return GraphQL::type('profile');
     }
 
     public function args(): array
@@ -48,7 +49,7 @@ class UpdateProfileMutation extends Mutation
         return [
             'profilePicture' => [
                 'name' => 'profilePicture',
-                'type' => GraphQL::type('Upload'),
+                'type' => GraphQL::type('upload'),
                 'rules' => ['required'],
             ],
         ];

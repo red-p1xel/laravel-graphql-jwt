@@ -36,7 +36,7 @@ class SettingType extends GraphQLType
                 'description' => 'Setting JSON-DATA',
             ],
             'user' => [
-                'type' => GraphQL::type('User'),
+                'type' => GraphQL::type('user'),
                 'description' => 'user_id reference of the setting',
             ],
         ];

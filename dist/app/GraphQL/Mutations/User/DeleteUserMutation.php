@@ -9,8 +9,6 @@ use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
-use Rebing\GraphQL\Support\SelectFields;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class DeleteUserMutation extends Mutation
 {
@@ -18,8 +16,8 @@ class DeleteUserMutation extends Mutation
         'name' => 'deleteUser',
     ];
 
+    /*
     private $auth;
-
     public function authorize(
         $root,
         array $args,
@@ -41,6 +39,7 @@ class DeleteUserMutation extends Mutation
 
         return true;
     }
+*/
 
     public function type(): Type
     {

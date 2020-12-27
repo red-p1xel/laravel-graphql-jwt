@@ -21,6 +21,7 @@ class CreateSettingMutation extends Mutation
         'description' => 'A mutation'
     ];
 
+    /*
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
         try {
@@ -31,10 +32,11 @@ class CreateSettingMutation extends Mutation
 
         return (boolean) $this->auth;
     }
+    */
 
     public function type(): Type
     {
-        return GraphQL::type('Setting');
+        return GraphQL::type('setting');
     }
 
     public function args(): array

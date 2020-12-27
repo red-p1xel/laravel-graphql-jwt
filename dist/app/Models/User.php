@@ -12,6 +12,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static create(array $array)
  * @method static findOrFail($id)
  * @method static find(mixed $getAttribute)
+ * @method static where(string $string, string $email)
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -46,6 +47,8 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $dates = ['updatedAt', 'createdAt'];
 
     public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

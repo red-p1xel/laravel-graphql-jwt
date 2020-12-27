@@ -17,6 +17,7 @@ class DeleteProfileMutation extends Mutation
         'name' => 'deleteProfile',
     ];
 
+/*
     private $auth;
 
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
@@ -35,7 +36,7 @@ class DeleteProfileMutation extends Mutation
 
         return true;
     }
-
+*/
     public function type(): Type
     {
         return Type::boolean();

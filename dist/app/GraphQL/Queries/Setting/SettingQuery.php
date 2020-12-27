@@ -21,7 +21,7 @@ class SettingQuery extends Query
 
     public function type(): Type
     {
-        return GraphQL::type('Setting');
+        return GraphQL::type('setting');
     }
 
     public function args(): array

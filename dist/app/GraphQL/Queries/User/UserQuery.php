@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\JWTAuth;
 
 class UserQuery extends Query
 {
@@ -19,9 +19,8 @@ class UserQuery extends Query
         'name' => 'user',
         'description' => 'A query'
     ];
-
+/*
     private $auth;
-
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
         try {
             $this->auth = JWTAuth::parseToken()->authenticate();
@@ -37,10 +36,10 @@ class UserQuery extends Query
 
         return true;
     }
-
+*/
     public function type(): Type
     {
-        return GraphQL::type('User');
+        return GraphQL::type('user');
     }
 
     public function args(): array

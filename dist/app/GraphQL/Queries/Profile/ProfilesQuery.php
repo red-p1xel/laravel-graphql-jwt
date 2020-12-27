@@ -15,13 +15,13 @@ use Rebing\GraphQL\Support\SelectFields;
 class ProfilesQuery extends Query
 {
     protected $attributes = [
-        'name' => 'profile/Profiles',
+        'name' => 'Profiles',
         'description' => 'A query'
     ];
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('Profile'));
+        return Type::listOf(GraphQL::type('profile'));
     }
 
     public function args(): array

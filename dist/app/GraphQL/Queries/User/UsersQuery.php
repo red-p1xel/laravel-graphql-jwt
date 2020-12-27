@@ -18,8 +18,8 @@ class UsersQuery extends Query
         'name' => 'users',
     ];
 
+/*
     private $auth;
-
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
         try {
@@ -30,12 +30,11 @@ class UsersQuery extends Query
 
         return (boolean) $this->auth;
     }
-
+*/
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('User'));
+        return Type::listOf(GraphQL::type('user'));
     }
-
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {

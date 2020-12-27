@@ -33,7 +33,7 @@ class ProfileType extends GraphQLType
                 'description' => 'Profile picture filepath'
             ],
             'user' => [
-                'type' => GraphQL::type('User'),
+                'type' => GraphQL::type('user'),
                 'description' => 'The user_id of reference',
             ]
         ];

@@ -19,7 +19,7 @@ class ProfileQuery extends Query
 
     public function type(): Type
     {
-        return GraphQL::type('Profile');
+        return GraphQL::type('profile');
     }
 
     public function args(): array
@@ -29,7 +29,7 @@ class ProfileQuery extends Query
                 'name' => 'id',
                 'type' => Type::int(),
                 'rules' => ['required']
-                ],
+            ],
         ];
     }
 

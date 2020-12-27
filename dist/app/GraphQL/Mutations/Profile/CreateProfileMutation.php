@@ -20,6 +20,7 @@ class CreateProfileMutation extends Mutation
         'name' => 'uploadFile',
 
     ];
+/*
     private $auth;
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
         try {
@@ -32,10 +33,10 @@ class CreateProfileMutation extends Mutation
         }
         return true;
     }
-
+*/
     public function type(): Type
     {
-        return GraphQL::type('Profile');
+        return GraphQL::type('profile');
     }
 
     public function args(): array
@@ -43,7 +44,7 @@ class CreateProfileMutation extends Mutation
         return [
             'profilePicture' => [
                 'name' => 'profilePicture',
-                'type' => GraphQL::type('Upload'),
+                'type' => GraphQL::type('upload'),
                 'rules' => ['required'],
             ],
         ];

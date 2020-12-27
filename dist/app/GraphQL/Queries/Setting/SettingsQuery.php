@@ -21,7 +21,7 @@ class SettingsQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('Setting'));
+        return Type::listOf(GraphQL::type('setting'));
     }
 
     public function args():array

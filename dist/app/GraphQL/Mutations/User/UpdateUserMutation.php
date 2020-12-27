@@ -10,13 +10,13 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UpdateUserMutation extends Mutation
 {
     protected $attributes = [
         'name' => 'updateUser',
     ];
+    /*
     private $auth;
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
         try {
@@ -33,10 +33,10 @@ class UpdateUserMutation extends Mutation
 
         return true;
     }
-
+*/
     public function type(): Type
     {
-        return GraphQL::type('User');
+        return GraphQL::type('user');
     }
 
     public function args(): array
