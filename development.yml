@@ -1,0 +1,56 @@
+version: "3.7"
+services:
+
+    # PHP 8.0.0
+    app:
+        build:
+            args:
+                user: graphql
+                uid: 1000
+            context: ./
+            dockerfile: Development.dockerfile
+        image: p1xel/laravel-graphql-jwt
+        container_name: php-app
+        working_dir: /var/www/
+        volumes:
+            # bind source configuration of development environment to container filesystem
+            - type: bind
+              source: ./.env.development
+              target: /var/www/.env
+              read_only: false
+            # bind backend app distributive directory to container filesystem
+            - ./dist:/var/www
+        networks:
+            - app-network
+
+    # MySQL database
+    db:
+        image: mysql:5.7
+        container_name: mysql-db
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        env_file:
+            - ./.env
+        networks:
+            - app-network
+
+    # Nginx WebServer
+    nginx:
+        image: nginx:alpine
+        container_name: php-nginx
+        ports:
+            - 8000:80
+        volumes:
+            - ./dist:/var/www
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

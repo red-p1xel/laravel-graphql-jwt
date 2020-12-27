@@ -21,7 +21,7 @@ services:
     container_name: app
     image: p1xel/laravel-graphql-jwt
     build:
-      dockerfile: Dockerfile
+      dockerfile: Alternative.dockerfile
       context: .
     environment:
       - TZ=Europe/Kiev

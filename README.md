@@ -13,18 +13,50 @@ source code examples for implement `GraphQL` API with `JWT` auth issue.
 
 ## Deployment
 ```bash
-# Starting containers
-$ docker-compose up -d
-$ docker exec -ti app php artisan config:clear
-$ docker exec -ti app php artisan migrate
-# Publish configuration for Laravel 5 Repositories
-$ docker exec -ti app php artisan vendor:publish --provider "Prettus\Repository\Providers\RepositoryServiceProvider"
-# Publish the config file for GraphQL
-$ docker exec -ti app php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
-# Publish the config file for JWT
-$ docker exec -ti app php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+# Build backend application in 'development' mode
+$ docker-compose -f development.yml build app
+$ docker-compose -f development.yml up -d
+# First installation steps
+$ docker-compose -f development.yml exec app composer install
+$ docker-compose -f development.yml exec app php artisan key:generate
+$ docker-compose -f development.yml exec app php artisan config:clear
 # Generate secret key for tokens
-$ docker exec -ti app php artisan jwt:secret
+$ docker-compose -f development.yml exec app php artisan jwt:secret
+
+# Apply migration and seeding fake data to database   
+$ docker-compose -f development.yml exec app php artisan migrate --seed
+
+# Publish the config file for GraphQL
+$ docker-compose -f development.yml exec app php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
+# Publish the config file for JWT
+$ docker-compose -f development.yml exec app php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+
 # Start analyzing your code using the phpstan console command
-$ docker exec -ti app ./vendor/bin/phpstan analyse
+$ docker-compose -f development.yml exec app ./vendor/bin/phpstan analyse --memory-limit=4G
+```
+
+### GraphQL Examples
+
+#### Mutation `registerUser`
+Create new user account
+
+```graphql
+
+    mutation {
+      registerUser(name: "Ali Destro", email: "test1256@hot.net", password: "password7") {
+        name
+      }
+    }
+
+```
+
+#### Mutation `loginUser`
+Authenticate user to GraphQL and return Bearer `access_token` JWT
+
+```graphql
+
+mutation {
+  loginUser(email: "penelope74@example.org", password: "userPassword3")
+}
+
 ```
