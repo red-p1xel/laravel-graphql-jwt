@@ -14,7 +14,7 @@ class UserType extends GraphQLType
     protected $attributes = [
         'name' => 'user',
         'description' => 'A user account',
-//        'model' => User::class,
+        'model' => User::class,
     ];
 
     public function fields(): array
@@ -35,7 +35,7 @@ class UserType extends GraphQLType
             'settings' => [
                 'type' => Type::listOf(GraphQL::type('setting')),
                 'description' => 'User settings',
-//                'alias' => 'settings'
+                'alias' => 'settings'
             ],
             'updated' => [
                 'type' => Type::nonNull(Type::string()),

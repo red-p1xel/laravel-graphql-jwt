@@ -16,6 +16,7 @@ class UserManagerService
 
     public function signUp(array $data): User
     {
+        $data['password'] = bcrypt($data['password']);
         $data = \Validator::validate($data, [
             'email' => ['email', 'unique:users'],
             'name' => ['required'],

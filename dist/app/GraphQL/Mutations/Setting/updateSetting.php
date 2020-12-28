@@ -9,6 +9,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 use Rebing\GraphQL\Support\SelectFields;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class updateSetting extends Mutation
 {
@@ -16,6 +17,29 @@ class updateSetting extends Mutation
         'name' => 'updateSetting',
         'description' => 'A mutation'
     ];
+
+    private $auth;
+    public function authorize(
+        $root,
+        array $args,
+        $ctx,
+        ResolveInfo $resolveInfo = null,
+        Closure $getSelectFields = null
+    ): bool {
+        try {
+            $this->auth = JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            $this->auth = null;
+        }
+        if (!$this->auth) {
+            return false;
+        }
+        if ($this->auth['id'] != $args['id']) {
+            return false;
+        }
+
+        return true;
+    }
 
     public function type(): Type
     {

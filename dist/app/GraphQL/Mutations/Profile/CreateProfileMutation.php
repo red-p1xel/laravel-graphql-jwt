@@ -20,7 +20,7 @@ class CreateProfileMutation extends Mutation
         'name' => 'uploadFile',
 
     ];
-/*
+
     private $auth;
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
         try {
@@ -33,7 +33,7 @@ class CreateProfileMutation extends Mutation
         }
         return true;
     }
-*/
+
     public function type(): Type
     {
         return GraphQL::type('profile');

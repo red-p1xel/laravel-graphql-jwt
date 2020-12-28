@@ -19,7 +19,7 @@ class UpdateProfileMutation extends Mutation
         'name' => 'UpdateProfile',
         'description' => 'A mutation'
     ];
-/*
+
     private $auth;
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
         try {
@@ -37,7 +37,6 @@ class UpdateProfileMutation extends Mutation
 
         return true;
     }
-*/
 
     public function type(): Type
     {

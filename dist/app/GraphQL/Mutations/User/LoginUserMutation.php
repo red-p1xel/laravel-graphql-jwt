@@ -39,6 +39,15 @@ class LoginUserMutation extends Mutation
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        return Auth::attempt(['email' => $args['email'], 'password' => $args['password']]);
+        $credentials = ['email' => $args['email'], 'password' => $args['password']];
+        // Generate a token for the user if the credentials are valid
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+
+        return $token;
     }
 }
+
+//"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvZ3JhcGhxbCIsImlhdCI6MTYwOTExMjUyMSwiZXhwIjoxNjA5MTE2MTIxLCJuYmYiOjE2MDkxMTI1MjEsImp0aSI6Im5PaUxCN0dNNENLNFV5NWgiLCJzdWIiOjE0LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.O0lpVSsUeLIohCabwop22NLiUsg5goeyA_DEtqG1X_Q"

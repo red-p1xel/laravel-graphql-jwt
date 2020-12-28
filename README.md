@@ -44,7 +44,9 @@ Create new user account
 
     mutation {
       registerUser(name: "Ali Destro", email: "test1256@hot.net", password: "password7") {
-        name
+        id
+        email
+        updated
       }
     }
 
@@ -55,8 +57,22 @@ Authenticate user to GraphQL and return Bearer `access_token` JWT
 
 ```graphql
 
-mutation {
-  loginUser(email: "penelope74@example.org", password: "userPassword3")
-}
+    mutation {
+      loginUser(email: "penelope74@example.org", password: "userPassword3")
+    }
+
+```
+#### Query get `user` by `id` 
+Get `user` by `id` (Request with this query must contain Authentication header with Bearer `access_token` JWT) 
+
+```graphql
+
+    query {
+        user: user(id: 14) {
+            id
+            name
+            email
+        }
+    }
 
 ```
