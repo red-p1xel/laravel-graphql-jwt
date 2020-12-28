@@ -10,6 +10,7 @@ source code examples for implement `GraphQL` API with `JWT` auth issue.
 + GraphQL: https://github.com/rebing/graphql-laravel/blob/master/README.md
 + PHPUnit: https://github.com/sebastianbergmann/phpunit
 + Larastan: https://github.com/nunomaduro/larastan
++ https://jwt-auth.readthedocs.io/en/develop/auth-guard/#attempt
 
 ## Deployment
 ```bash
