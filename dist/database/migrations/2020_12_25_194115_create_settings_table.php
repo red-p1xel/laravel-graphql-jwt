@@ -14,12 +14,13 @@ class CreateSettingsTable extends Migration
     public function up()
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->uuid('user_id');
             $table->string('title');
             $table->string('description');
             $table->json('data');
-            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

@@ -4,38 +4,25 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Queries\User;
 
+use App\GraphQL\JWTAuthorize;
+use App\Models\Profile;
 use App\Models\User;
 use Closure;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Collection;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserQuery extends Query
 {
+    use JWTAuthorize;
+
     protected $attributes = [
         'name' => 'user',
-        'description' => 'A query'
+        'description' => 'Get user by ID'
     ];
-
-    private $auth;
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
-        try {
-            $this->auth = JWTAuth::parseToken()->authenticate();
-        } catch (\Exception $e) {
-            $this->auth = null;
-        }
-        if(! $this->auth){
-            return false;
-        }
-       if($this->auth['id'] != $args['id']){
-           return false;
-       }
-
-        return true;
-    }
 
     public function type(): Type
     {
@@ -47,13 +34,13 @@ class UserQuery extends Query
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::int(),
+                'type' => Type::string(),
                 'rules' => ['required']
             ],
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): User
     {
         return User::findOrFail($args['id']);
     }

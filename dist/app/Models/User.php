@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-/**
- * @method static create(array $array)
- * @method static findOrFail($id)
- * @method static find(mixed $getAttribute)
- * @method static where(string $string, string $email)
- */
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Uuids;
 
     /**
      * The attributes that are mass assignable.
@@ -50,12 +45,15 @@ class User extends Authenticatable implements JWTSubject
 
     protected $dates = ['updatedAt', 'createdAt'];
 
-    public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    /**
+     * @return HasOne
+     */
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
     }
 
-    public function settings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function settings(): HasMany
     {
         return $this->hasMany(Setting::class);
     }
@@ -74,9 +72,13 @@ class User extends Authenticatable implements JWTSubject
      * Return a key value array
      *
      * @return array
+     * @noinspection PhpUndefinedFieldInspection
      */
     public function getJWTCustomClaims(): array
     {
-        return [];
+        return [
+            'uuid' => $this->id,
+            'roles' => ['ROLE_USER', 'ROLE_FREE'],
+        ];
     }
 }

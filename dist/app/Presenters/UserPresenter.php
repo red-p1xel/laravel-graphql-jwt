@@ -7,7 +7,7 @@ class UserPresenter extends BasePresenter
     /**
      * @return null|bool
      */
-    public function isSuperUser()
+    public function isSuperUser(): ?bool
     {
 //        return $this->role->name === 'superuser';
         return null;

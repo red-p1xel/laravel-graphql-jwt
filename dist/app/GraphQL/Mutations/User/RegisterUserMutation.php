@@ -48,7 +48,7 @@ class RegisterUserMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): \App\Models\User
     {
         return $this->userManagerService->signUp($args);
     }

@@ -4,43 +4,35 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Queries\User;
 
+use App\GraphQL\JWTAuthorize;
 use App\Models\User;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Collection;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersQuery extends Query
 {
+    use JWTAuthorize;
+
     protected $attributes = [
         'name' => 'users',
     ];
 
-/*
-    private $auth;
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
-    {
-        try {
-            $this->auth = JWTAuth::parseToken()->authenticate();
-        } catch (\Exception $e) {
-            $this->auth = null;
-        }
-
-        return (boolean) $this->auth;
-    }
-*/
     public function type(): Type
     {
         return Type::listOf(GraphQL::type('user'));
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): Collection
     {
         $fields = $getSelectFields();
+        $select = $fields->getSelect();
         $with = $fields->getRelations();
-        $users = User::with($with);
+
+        $users = User::select($select)->with($with);
 
         return $users->get();
 }

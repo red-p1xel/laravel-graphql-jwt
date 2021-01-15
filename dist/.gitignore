@@ -13,3 +13,6 @@ npm-debug.log
 yarn-error.log
 config/jwt.php
 config/graphql.php
+.phpstorm.meta.php
+_ide*
+config/ide-helper.php

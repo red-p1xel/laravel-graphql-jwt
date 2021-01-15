@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Mutations\Profile;
 
+use App\GraphQL\JWTAuthorize;
 use App\Models\Profile;
 use Closure;
 
@@ -11,32 +12,15 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UpdateProfileMutation extends Mutation
 {
+    use JWTAuthorize;
+
     protected $attributes = [
         'name' => 'UpdateProfile',
         'description' => 'A mutation'
     ];
-
-    private $auth;
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
-        try {
-            $this->auth = JWTAuth::parseToken()->authenticate();
-        } catch (\Exception $e) {
-            $this->auth = null;
-        }
-        if(! $this->auth){
-            return false;
-        }
-        $profile  = Profile::where('user_id',$this->auth['id'])->first();
-        if(!$profile){
-            return false;
-        }
-
-        return true;
-    }
 
     public function type(): Type
     {
@@ -54,7 +38,15 @@ class UpdateProfileMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    /**
+     * @param mixed $root
+     * @param mixed $args
+     * @param mixed $context
+     * @param ResolveInfo $resolveInfo
+     * @param Closure $getSelectFields
+     * @return Profile
+     */
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): Profile
     {
         $profile = Profile::where('user_id',$this->auth['id'])->first();
         unlink($profile->filePath);

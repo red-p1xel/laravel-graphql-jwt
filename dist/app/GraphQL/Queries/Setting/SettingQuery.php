@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Queries\Setting;
 
+use App\GraphQL\JWTAuthorize;
 use App\Models\Setting;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Rebing\GraphQL\Support\SelectFields;
 
 class SettingQuery extends Query
 {
+    use JWTAuthorize;
+
     protected $attributes = [
         'name' => 'setting',
         'description' => 'A query'
@@ -29,7 +31,7 @@ class SettingQuery extends Query
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::int(),
+                'type' => Type::string(),
                 'rules' => ['required'],
             ]
         ];

@@ -1,0 +1,32 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app
+
+    # The level 8 is the highest level
+    level: 5
+    phpVersion: 80000
+
+    ignoreErrors:
+        - '#Unsafe usage of new static#'
+#        - '#Call to an undefined method App\\Contracts\\CommandInterface::[a-zA-Z0-9\\_]+\(\)#'
+#        - '#Call to an undefined static method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\)#'
+#        - '#Access to an undefined property App\\Models\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+#'
+#        - '#Access to an undefined property Illuminate\\Contracts\\Auth\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+#'
+#        - '#Access to an undefined property App\\Presenters\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+#'
+#        - '#Call to an undefined method App\\Presenters\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\)#'
+#        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\)#'
+#        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Factory|Illuminate\\Contracts\\Auth\\Guard::[a-zA-Z0-9\\_]+\(\)#'
+
+    excludes_analyse:
+        - %rootDir%/../../../tests/*
+        - %rootDir%/../../../database/*
+
+    checkModelProperties: true
+
+    checkMissingIterableValueType: false
+
+    reportUnmatchedIgnoredErrors: false

@@ -4,36 +4,21 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Mutations\User;
 
+use App\GraphQL\JWTAuthorize;
 use App\Models\User;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UpdateUserMutation extends Mutation
 {
+    use JWTAuthorize;
+
     protected $attributes = [
         'name' => 'updateUser',
     ];
-
-    private $auth;
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
-        try {
-            $this->auth = JWTAuth::parseToken()->authenticate();
-        } catch (\Exception $e) {
-            $this->auth = null;
-        }
-        if(! $this->auth){
-            return false;
-        }
-        if($this->auth['id'] != $args['id']){
-            return false;
-        }
-
-        return true;
-    }
 
     public function type(): Type
     {
@@ -45,7 +30,7 @@ class UpdateUserMutation extends Mutation
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::nonNull(Type::int()),
+                'type' => Type::nonNull(Type::string()),
             ],
             'name' => [
                 'name' => 'name',

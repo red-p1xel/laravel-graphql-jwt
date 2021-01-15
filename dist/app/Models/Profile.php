@@ -4,23 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @method static where(string $string, mixed $id)
- * @method static findOrFail($id)
- * @property mixed|string filename
- * @property mixed user_id
- * @property mixed filePath
+ * Class Profile
+ * @package App\Models
+ *
+ * @property string $filename
+ * @property string $filepath
+ *
  */
 class Profile extends Model
 {
-    use HasFactory;
+    use HasFactory, Uuids;
 
     protected $fillable = [
-        'filename', 'filepath'
+        'fileName', 'filePath'
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

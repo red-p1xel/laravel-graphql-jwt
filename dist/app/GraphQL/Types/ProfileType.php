@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Types;
 
+use App\GraphQL\Fields\FormattableDate;
 use App\Models\Profile;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -21,21 +22,27 @@ class ProfileType extends GraphQLType
     {
         return [
             'id' => [
-                'type' => Type::nonNull(Type::int()),
+                'type' => Type::nonNull(Type::string()),
                 'description' => 'Id of a particular Profile',
-            ],
-            'filename' => [
-                'type' => Type::nonNull(Type::string()),
-                'description' => 'Profile picture filename'
-            ],
-            'filepath' => [
-                'type' => Type::nonNull(Type::string()),
-                'description' => 'Profile picture filepath'
             ],
             'user' => [
                 'type' => GraphQL::type('user'),
                 'description' => 'The user_id of reference',
-            ]
+            ],
+            'fileName' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Profile picture filename'
+            ],
+            'filePath' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Profile picture filepath'
+            ],
+            'createdAt' => new FormattableDate([
+                'alias' => 'created_at',
+            ]),
+            'updatedAt' => new FormattableDate([
+                'alias' => 'updated_at',
+            ]),
         ];
     }
 }

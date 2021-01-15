@@ -1,36 +1,28 @@
-<?php
+<?php /** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
 
 declare(strict_types=1);
 
 namespace App\GraphQL\Mutations\Setting;
 
+use App\GraphQL\JWTAuthorize;
 use App\Models\Setting;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class CreateSettingMutation extends Mutation
 {
-    private $auth;
+    use JWTAuthorize;
 
     protected $attributes = [
         'name' => 'createSetting',
         'description' => 'A mutation'
     ];
-
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
-    {
-        try {
-            $this->auth = JWTAuth::parseToken()->authenticate();
-        } catch (\Exception $e) {
-            $this->auth = null;
-        }
-
-        return (boolean) $this->auth;
-    }
 
     public function type(): Type
     {
@@ -55,7 +47,7 @@ class CreateSettingMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): Setting
     {
         $setting = new Setting();
         $setting->user_id = $this->auth['id'];

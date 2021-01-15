@@ -1,61 +1,58 @@
-<?php
+<?php /** @noinspection PhpUnusedParameterInspection */
+/** @noinspection PhpUnusedParameterInspection */
+/** @noinspection PhpUnusedParameterInspection */
+/** @noinspection PhpUnusedParameterInspection */
 
 declare(strict_types=1);
 
 namespace App\GraphQL\Mutations\Profile;
 
+use App\GraphQL\JWTAuthorize;
 use App\Models\Profile;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class DeleteProfileMutation extends Mutation
 {
+    use JWTAuthorize;
+
+    /**
+     * @var string[]
+     */
     protected $attributes = [
         'name' => 'deleteProfile',
     ];
 
-    private $auth;
-
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null):bool {
-        try {
-            $this->auth = JWTAuth::parseToken()->authenticate();
-        } catch (\Exception $e) {
-            $this->auth = null;
-        }
-        if(! $this->auth){
-            return false;
-        }
-        $profile  = Profile::findOrFail($args['id']);
-        if($profile->user_id != $this->auth['id']){
-            return false;
-        }
-
-        return true;
-    }
-
+    /**
+     * @return Type
+     */
     public function type(): Type
     {
         return Type::boolean();
     }
 
+    /**
+     * @return array[]
+     */
     public function args(): array
     {
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::int(),
+                'type' => Type::string(),
                 'rules' => ['required']
             ]
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): bool
     {
         $profile = Profile::findOrFail($args['id']);
-        unlink($profile->filePath);
+        if (isset($profile->filePath)) {
+            unlink($profile->filePath);
+        }
 
         return $profile->delete() ? true : false;
     }

@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\UserAccountRepository;
+use Illuminate\Validation\ValidationException;
+use Validator;
 
 class UserManagerService
 {
@@ -17,11 +19,14 @@ class UserManagerService
     public function signUp(array $data): User
     {
         $data['password'] = bcrypt($data['password']);
-        $data = \Validator::validate($data, [
-            'email' => ['email', 'unique:users'],
-            'name' => ['required'],
-            'password' => ['min:6'],
-        ]);
+        try {
+            $data = Validator::validate($data, [
+                'email' => ['email', 'unique:users'],
+                'name' => ['required'],
+                'password' => ['min:6'],
+            ]);
+        } catch (ValidationException $e) {
+        }
         $user = User::create($data);
 
         return User::where('email', $data['email'])->first();

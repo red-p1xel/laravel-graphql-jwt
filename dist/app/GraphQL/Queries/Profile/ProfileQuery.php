@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Queries\Profile;
 
+use App\GraphQL\JWTAuthorize;
 use App\Models\Profile;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -13,6 +14,8 @@ use Rebing\GraphQL\Support\Query;
 
 class ProfileQuery extends Query
 {
+    use JWTAuthorize;
+
     protected $attributes = [
         'name' => 'profile'
     ];
@@ -27,13 +30,21 @@ class ProfileQuery extends Query
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::int(),
+                'type' => Type::string(),
                 'rules' => ['required']
             ],
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    /**
+     * @param mixed $root
+     * @param mixed $args
+     * @param mixed $context
+     * @param ResolveInfo $resolveInfo
+     * @param Closure $getSelectFields
+     * @return Profile
+     */
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): Profile
     {
         return Profile::findOrFail($args['id']);
     }
